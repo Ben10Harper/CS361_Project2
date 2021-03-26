@@ -110,6 +110,8 @@ public class NFA implements NFAInterface {
 				}
 				if (!visited.contains(tranState)) {
 					queue.add(tranState);
+				}
+				if (!isDFAState(tranState.toString(), dfa)) {
 					if (isFinal(tranState)) {
 						dfa.addFinalState(tranState.toString());
 					} else {
@@ -177,6 +179,18 @@ public class NFA implements NFAInterface {
 			}
 		}
 		return fin;
+	}
+	
+	private boolean isDFAState(String nstate, DFA dfa) {
+		boolean exists = false;
+		Set<DFAState> dfaStates = dfa.getStates();
+		for (DFAState dstate : dfaStates) {
+			if(nstate.equals(dstate.getName())) {
+				exists = true;
+				break;
+			}
+		}
+		return exists;
 	}
 
 }
