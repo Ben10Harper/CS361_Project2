@@ -33,7 +33,7 @@ public class NFAState extends fa.State {
 		} else if (toStates == null && symb == 'e') {
 			return null;
 		} else {
-			System.out.println("No transition exists for this state on " + symb);
+			//System.out.println("No transition exists for this state on " + symb);
 			return null;
 		}
 	}

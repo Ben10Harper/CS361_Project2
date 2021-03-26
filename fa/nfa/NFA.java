@@ -1,6 +1,8 @@
 package fa.nfa;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 import fa.State;
@@ -84,8 +86,40 @@ public class NFA implements NFAInterface {
 
 	@Override
 	public DFA getDFA() {
-		// TODO Auto-generated method stub
-		return null;
+		DFA dfa = new DFA();
+		Queue<Set<NFAState>> queue = new LinkedList<Set<NFAState>>();
+		Set<Set<NFAState>> visited = new LinkedHashSet<Set<NFAState>>();
+		Set<NFAState> startState = eClosure((NFAState) getStartState());
+		dfa.addStartState(startState.toString());
+		queue.add(startState);
+		while (!queue.isEmpty()) {
+			Set<NFAState> currStates = queue.remove();
+			visited.add(currStates);
+			for (Character c : sigma) {
+				if (c == 'e') {
+					break;
+				}
+				Set<NFAState> tranState = new LinkedHashSet<NFAState>();
+				for (NFAState state : currStates) {
+					if (state.getTo(c) != null) {
+						tranState.addAll(state.getTo(c));
+						for (NFAState s : tranState) {
+							tranState.addAll(eClosure(s));
+						}
+					}
+				}
+				if (!visited.contains(tranState)) {
+					queue.add(tranState);
+					if (isFinal(tranState)) {
+						dfa.addFinalState(tranState.toString());
+					} else {
+						dfa.addState(tranState.toString());
+					}
+				}
+				dfa.addTransition(currStates.toString(), c, tranState.toString());
+			}
+		}
+		return dfa;
 	}
 
 	@Override
@@ -105,7 +139,7 @@ public class NFA implements NFAInterface {
 				eStates.addAll(eClosure(state, visited));
 			}
 		}
-		System.out.println(eStates);
+		//System.out.println(eStates);
 		return eStates;
 	}
 	
@@ -133,6 +167,18 @@ public class NFA implements NFAInterface {
 			}
 		}
 		return existing;
+	}
+	
+	private boolean isFinal(Set<NFAState> states) {
+		for (NFAState state : states) {
+			if (F.contains(state)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		System.out.println("State not valid");
+		return false;
 	}
 
 }
