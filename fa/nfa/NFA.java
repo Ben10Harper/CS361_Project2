@@ -100,8 +100,10 @@ public class NFA implements NFAInterface {
 		eStates.add(s);
 		visited.add(s);
 		Set<NFAState> setOfStates = s.getTo('e');
-		for (NFAState state : setOfStates) {
-			eStates.addAll(eClosure(state, visited));
+		if (setOfStates != null) {
+			for (NFAState state : setOfStates) {
+				eStates.addAll(eClosure(state, visited));
+			}
 		}
 		System.out.println(eStates);
 		return eStates;
@@ -112,9 +114,11 @@ public class NFA implements NFAInterface {
 		eStates.add(s);
 		visited.add(s);
 		Set<NFAState> setOfStates = s.getTo('e');
-		for (NFAState state : setOfStates) {
-			if (!visited.contains(state)) {
-				eStates.addAll(eClosure(state, visited));
+		if (setOfStates != null) {
+			for (NFAState state : setOfStates) {
+				if (!visited.contains(state)) {
+					eStates.addAll(eClosure(state, visited));
+				}
 			}
 		}
 		return eStates;

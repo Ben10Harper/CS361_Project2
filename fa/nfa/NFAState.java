@@ -30,6 +30,8 @@ public class NFAState extends fa.State {
 		Set<NFAState> toStates = delta.get(symb);
 		if(toStates != null) {
 			return toStates;
+		} else if (toStates == null && symb == 'e') {
+			return null;
 		} else {
 			System.out.println("No transition exists for this state on " + symb);
 			return null;
