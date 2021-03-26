@@ -170,15 +170,13 @@ public class NFA implements NFAInterface {
 	}
 	
 	private boolean isFinal(Set<NFAState> states) {
+		boolean fin = false;
 		for (NFAState state : states) {
 			if (F.contains(state)) {
-				return true;
-			} else {
-				return false;
+				fin = true;
 			}
 		}
-		System.out.println("State not valid");
-		return false;
+		return fin;
 	}
 
 }
