@@ -95,14 +95,35 @@ public class NFA implements NFAInterface {
 
 	@Override
 	public Set<NFAState> eClosure(NFAState s) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<NFAState> eStates = new LinkedHashSet<NFAState>();
+		Set<NFAState> visited = new LinkedHashSet<NFAState>();
+		eStates.add(s);
+		visited.add(s);
+		Set<NFAState> setOfStates = s.getTo('e');
+		for (NFAState state : setOfStates) {
+			eStates.addAll(eClosure(state, visited));
+		}
+		System.out.println(eStates);
+		return eStates;
 	}
 	
-	private NFAState alreadyExists(String name){
+	public Set<NFAState> eClosure(NFAState s, Set<NFAState> visited) {
+		Set<NFAState> eStates = new LinkedHashSet<NFAState>();
+		eStates.add(s);
+		visited.add(s);
+		Set<NFAState> setOfStates = s.getTo('e');
+		for (NFAState state : setOfStates) {
+			if (!visited.contains(state)) {
+				eStates.addAll(eClosure(state, visited));
+			}
+		}
+		return eStates;
+	}
+	
+	private NFAState alreadyExists(String name) {
 		NFAState existing = null;
-		for(NFAState state : Q){
-			if(state.getName().equals(name)){
+		for(NFAState state : Q) {
+			if(state.getName().equals(name)) {
 				existing = state;
 				break;
 			}
