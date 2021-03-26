@@ -1,6 +1,7 @@
 package fa.nfa;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class NFAState extends fa.State {
@@ -17,7 +18,10 @@ public class NFAState extends fa.State {
 	}
 	
 	public void addTransition(char onSymb, NFAState toState){
-		Set<NFAState> set = delta.get(onSymb);
+		Set<NFAState> set = new LinkedHashSet<NFAState>();
+		if (delta.get(onSymb) != null) {
+			set = delta.get(onSymb);
+		}
 		set.add(toState);
 		delta.put(onSymb, set);
 	}
