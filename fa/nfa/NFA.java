@@ -94,7 +94,7 @@ public class NFA implements NFAInterface {
 		queue.add(startState);
 		while (!queue.isEmpty()) {
 			Set<NFAState> currStates = queue.remove();
-			visited.add(currStates);
+			//visited.add(currStates);
 			for (Character c : sigma) {
 				if (c == 'e') {
 					break;
@@ -108,8 +108,13 @@ public class NFA implements NFAInterface {
 						}
 					}
 				}
+				Set<NFAState> equivilantState = equalState(tranState, visited);
+				if (equivilantState != null) {
+					tranState = equivilantState;
+				}
 				if (!visited.contains(tranState)) {
 					queue.add(tranState);
+					visited.add(tranState);
 				}
 				if (!isDFAState(tranState.toString(), dfa)) {
 					if (isFinal(tranState)) {
@@ -191,6 +196,17 @@ public class NFA implements NFAInterface {
 			}
 		}
 		return exists;
+	}
+	
+	private Set<NFAState> equalState(Set<NFAState> testState, Set<Set<NFAState>> visited) {
+		Set<NFAState> equivilantState = null;
+		for (Set<NFAState> state : visited) {
+			if(testState.equals(state)) {
+				equivilantState = state;
+				break;
+			}
+		}
+		return equivilantState;
 	}
 
 }
