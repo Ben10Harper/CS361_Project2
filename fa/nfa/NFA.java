@@ -90,14 +90,18 @@ public class NFA implements NFAInterface {
 		Queue<Set<NFAState>> queue = new LinkedList<Set<NFAState>>();
 		Set<Set<NFAState>> visited = new LinkedHashSet<Set<NFAState>>();
 		Set<NFAState> startState = eClosure((NFAState) getStartState());
+		if (isFinal(startState)) {
+			dfa.addFinalState(startState.toString());
+		}
 		dfa.addStartState(startState.toString());
 		queue.add(startState);
+		visited.add(startState);
 		while (!queue.isEmpty()) {
 			Set<NFAState> currStates = queue.remove();
 			//visited.add(currStates);
 			for (Character c : sigma) {
 				if (c == 'e') {
-					break;
+					continue;
 				}
 				Set<NFAState> tranState = new LinkedHashSet<NFAState>();
 				for (NFAState state : currStates) {
