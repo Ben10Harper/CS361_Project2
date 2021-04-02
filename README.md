@@ -12,7 +12,7 @@
 ## Overview
 This program reads in input about a nondeterministic finite automata and converts to a deterministic furniture automata. 
 
-When using a Linux based system compile the driver method from the top level folder using javac fa/dfa/NFADriver.java you can then use java fa.dfa.NFADriver ./tests/p1tc(test number).txt. The most complex step is writing the plain text files.
+When using a Linux based system compile the driver method from the top level folder using javac fa/nfa/NFADriver.java you can then use java fa.nfa.NFADriver ./tests/p2tc(test number).txt. The most complex step is writing the plain text files.
 An example follows.
 
 Final states  			B
